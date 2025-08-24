@@ -1,0 +1,82 @@
+In React, when you use useEffect, you sometimes need a cleanup function to remove or cancel side effects (like event listeners, timers, subscriptions) before the component unmounts or before the effect runs again.
+
+? Syntax of useEffect with cleanup:
+useEffect(() => {
+  // Effect code (side effect)
+  console.log("Effect is running");
+
+  return () => {
+    // Cleanup code
+    console.log("Cleanup before unmount or before re-run");
+  };
+}, []);
+
+?? Example 1: Cleanup with setInterval
+import React, { useState, useEffect } from "react";
+
+function Timer() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Effect: starting interval");
+
+    const intervalId = setInterval(() => {
+      setCount((prev) => prev + 1);
+    }, 1000);
+
+    // Cleanup function
+    return () => {
+      console.log("Cleanup: clearing interval");
+      clearInterval(intervalId);
+    };
+  }, []); // run only once when mounted
+
+  return <h2>Count: {count}</h2>;
+}
+
+export default Timer;
+
+
+?? Here, the cleanup ensures the timer stops when the component unmounts.
+
+?? Example 2: Cleanup with Event Listener
+import React, { useState, useEffect } from "react";
+
+function WindowResize() {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+
+    window.addEventListener("resize", handleResize);
+    console.log("Effect: added resize listener");
+
+    // Cleanup to prevent memory leaks
+    return () => {
+      console.log("Cleanup: removed resize listener");
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return <h2>Window width: {width}</h2>;
+}
+
+export default WindowResize;
+
+? When to use Cleanup?
+
+Removing event listeners
+
+Clearing intervals/timeouts
+
+Cancelling API requests
+
+Resetting subscriptions
+
+?? In React, we usually call this “Cleanup function inside useEffect”, not updater function.
+But if you meant updater function ? that’s usually the function inside useState like:
+
+setCount(prev => prev + 1); // updater function
+
+
+because it updates state based on previous value.
