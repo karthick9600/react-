@@ -1,0 +1,48 @@
+?? What is useContext?
+
+In React, useContext allows us to share data between components without passing props manually at every level (no need for "prop drilling").
+
+?? Step 1: Create a Context
+import React, { createContext, useContext } from "react";
+
+// 1. Create Context
+const UserContext = createContext();
+
+?? Step 2: Provide the Context (Parent component)
+function App() {
+  const user = { name: "Karthick", role: "Frontend Developer" };
+
+  return (
+    // 2. Wrap children inside Provider
+    <UserContext.Provider value={user}>
+      <Profile />
+    </UserContext.Provider>
+  );
+}
+
+?? Step 3: Consume Context (Child component)
+function Profile() {
+  // 3. Use useContext to access value
+  const user = useContext(UserContext);
+
+  return (
+    <div>
+      <h2>User Name: {user.name}</h2>
+      <h3>Role: {user.role}</h3>
+    </div>
+  );
+}
+
+export default App;
+
+? Output:
+User Name: Karthick
+Role: Frontend Developer
+
+?? Key Points:
+
+createContext() ? Creates a Context object.
+
+Context.Provider ? Wraps components and provides a value.
+
+useContext(Context) ? Reads the value inside child components.
