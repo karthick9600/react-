@@ -1,0 +1,100 @@
+?? What is useRef?
+
+useRef is a hook in React that lets you create a mutable reference object which persists across renders.
+
+Unlike useState, changing a ref does not re-render the component.
+
+You can use it to access DOM elements directly or to store mutable values.
+
+1?? Basic Syntax
+import React, { useRef } from "react";
+
+function App() {
+  const inputRef = useRef(null); // create a reference
+
+  const focusInput = () => {
+    inputRef.current.focus(); // access DOM node directly
+  };
+
+  return (
+    <div>
+      <input ref={inputRef} type="text" placeholder="Type here..." />
+      <button onClick={focusInput}>Focus Input</button>
+    </div>
+  );
+}
+
+export default App;
+
+
+? Here:
+
+useRef(null) creates a reference object.
+
+ref={inputRef} attaches it to the <input>.
+
+inputRef.current gives access to the real DOM element.
+
+When you click the button ? input gets focus.
+
+2?? Storing Mutable Values (Like Variables)
+
+Refs can hold values that don’t trigger re-renders.
+
+import React, { useRef, useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const renders = useRef(0); // mutable value
+
+  renders.current = renders.current + 1;
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <p>Component rendered: {renders.current} times</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+
+
+? Here:
+
+renders.current is not re-rendering when updated.
+
+It just keeps track of render counts.
+
+3?? When to use useRef?
+
+?? To access/manipulate DOM (like focus, scroll, play video, etc.)
+?? To store values across renders without re-rendering.
+?? To keep previous values.
+
+? Example – storing previous value:
+
+import React, { useState, useEffect, useRef } from "react";
+
+function PreviousValue() {
+  const [count, setCount] = useState(0);
+  const prevCount = useRef(null);
+
+  useEffect(() => {
+    prevCount.current = count; // store previous value
+  }, [count]);
+
+  return (
+    <div>
+      <p>Now: {count}</p>
+      <p>Before: {prevCount.current}</p>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
+}
+
+export default PreviousValue;
+
+
+?? So, useRef = a box that can store a value or DOM element reference, and it survives re-renders without causing re-renders.
