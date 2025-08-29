@@ -1,0 +1,138 @@
+1?? React Router – Simple Example
+
+?? Used for navigation between pages.
+
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+function Home() {
+  return <h2>?? This is Home Page</h2>;
+}
+
+function About() {
+  return <h2>?? This is About Page</h2>;
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <nav>
+        <Link to="/">Home</Link> | <Link to="/about">About</Link>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
+? Explanation:
+
+BrowserRouter ? Wrapper for all routes.
+
+Route ? Decides which component to show for a path.
+
+Link ? Navigate without refreshing the page.
+
+2?? Cleanup Function & Updater Function
+
+?? Example: Timer
+
+import React, { useState, useEffect } from "react";
+
+function Timer() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      // Updater function (uses old value to update new one)
+      setCount((prev) => prev + 1);
+    }, 1000);
+
+    // Cleanup function
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  return <h2>Timer: {count}</h2>;
+}
+
+export default Timer;
+
+
+? Explanation:
+
+Updater function ? (prev) => prev + 1 updates value based on the previous state.
+
+Cleanup function ? clearInterval(timer) stops the timer when component is removed.
+
+3?? useContext Hook – Simple Example
+
+?? Share data globally without props drilling.
+
+import React, { createContext, useContext } from "react";
+
+const UserContext = createContext();
+
+function Child() {
+  const user = useContext(UserContext);
+  return <h2>Hello, {user}</h2>;
+}
+
+function App() {
+  return (
+    <UserContext.Provider value="Karthick">
+      <Child />
+    </UserContext.Provider>
+  );
+}
+
+export default App;
+
+
+? Explanation:
+
+createContext() ? Creates a data container.
+
+Provider ? Supplies data to child components.
+
+useContext ? Reads the data.
+
+4?? useRef Hook – Simple Example
+
+?? Access DOM elements directly.
+
+import React, { useRef } from "react";
+
+function InputFocus() {
+  const inputRef = useRef(null);
+
+  const handleClick = () => {
+    inputRef.current.focus(); // Access DOM directly
+  };
+
+  return (
+    <div>
+      <input ref={inputRef} type="text" placeholder="Type here..." />
+      <button onClick={handleClick}>Focus Input</button>
+    </div>
+  );
+}
+
+export default InputFocus;
+
+
+? Explanation:
+
+useRef ? Creates a reference object.
+
+inputRef.current ? Points to the input element.
+
+Clicking button focuses the input.
+
+?? These are small simple examples of React Router, Cleanup & Updater function, useContext, and useRef.
