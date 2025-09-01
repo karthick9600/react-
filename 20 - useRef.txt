@@ -1,0 +1,54 @@
+Let’s go with an advanced example where useRef is really useful beyond just focusing an input.
+
+?? Example: Preventing Re-renders with useRef
+
+Suppose we want to track how many times a component rendered but without causing extra re-renders.
+
+import React, { useState, useEffect, useRef } from "react";
+
+function AdvancedUseRefExample() {
+  const [count, setCount] = useState(0);
+
+  // Ref to store previous value
+  const previousCountRef = useRef(0);
+
+  // Ref to count renders
+  const renderCount = useRef(1);
+
+  useEffect(() => {
+    renderCount.current = renderCount.current + 1;
+    previousCountRef.current = count; // Store the previous value
+  });
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h2>Current Count: {count}</h2>
+      <h3>Previous Count: {previousCountRef.current}</h3>
+      <h3>Render Count: {renderCount.current}</h3>
+
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default AdvancedUseRefExample;
+
+?? Explanation
+
+previousCountRef ? Stores the previous state value across renders without triggering re-render.
+
+renderCount ? Keeps track of how many times the component rendered.
+
+Unlike useState, updating a useRef does not re-render the component.
+
+?? Real-world use cases of useRef
+
+? Store previous values (like in the example above).
+
+? Debouncing / Throttling (hold a timer ID without re-render).
+
+? Persist values between renders (like WebSocket instance, video player object, etc.).
+
+? Measure DOM size or position (getBoundingClientRect).
+
+? Focus / scroll control in forms.
