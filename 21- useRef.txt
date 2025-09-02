@@ -1,0 +1,42 @@
+    A  simple useRef example but explained in a different way. Let’s take a very easy scenario: click a button ? focus on input box.
+
+?? Example: Focus Input with useRef
+import React, { useRef } from "react";
+
+function SimpleUseRef() {
+  // create a reference for the input element
+  const inputRef = useRef(null);
+
+  const handleClick = () => {
+    // access the input and focus on it
+    inputRef.current.focus();
+  };
+
+  return (
+    <div style={{ margin: "20px" }}>
+      <h2>Simple useRef Example</h2>
+      <input ref={inputRef} type="text" placeholder="Enter your name" />
+      <button onClick={handleClick}>Focus Input</button>
+    </div>
+  );
+}
+
+export default SimpleUseRef;
+
+?? Explanation in English
+
+useRef(null) ? creates a reference (like a pointer).
+
+ref={inputRef} ? connects the reference to the input box.
+
+inputRef.current ? points to the actual DOM element.
+
+focus() ? directly focuses on the input box when button is clicked.
+
+?? Unlike useState, changing useRef.current does not cause re-render.
+
+? Different Way to Think:
+
+useState = for data that changes UI.
+
+useRef = for data that changes but does not affect UI (like timers, previous values, or DOM access).
